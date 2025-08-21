@@ -7,5 +7,6 @@ M.picker = require("plugins.picker")
 M.completion = require("plugins.completion")
 M.treesitter = require("plugins.treesitter")
 M.lua_snip = require("plugins.lua_snip")
+M.gitsigns = require("plugins.gitsigns")
 
 return M
