@@ -1,3 +1,7 @@
-require('fff').setup()
+local fff = require('fff')
+fff.setup()
+vim.keymap.set('n', 'ff', function() fff.find_files() end, { desc = '[F]ind Files' })
 
-vim.keymap.set('n', 'ff', function() require('fff').find_files() end, { desc = '[F]ind Files' })
+local builtin = require("telescope.builtin")
+vim.keymap.set('n', 'gr', builtin.lsp_references, { desc = '[G]oto [R]eferences' })
+vim.keymap.set('n', 'g/', builtin.live_grep, { desc = '[G]rep [/]' })

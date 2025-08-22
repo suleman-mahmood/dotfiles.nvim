@@ -7,6 +7,11 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.o.breakindent = true
 
+vim.o.expandtab = true
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+
+
 -- Save undo history
 vim.o.undofile = true
 
@@ -31,7 +36,7 @@ vim.o.shiftwidth = 4
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-	vim.o.clipboard = 'unnamedplus'
+    vim.o.clipboard = 'unnamedplus'
 end)
 
 -- Sets how neovim will display certain whitespace characters in the editor.
@@ -65,9 +70,11 @@ vim.o.confirm = true
 vim.cmd("set completeopt+=noselect")
 
 vim.keymap.set('n', '<leader>w', '<cmd>wa<CR>')
-vim.keymap.set('n', '<leader>q', '<cmd>cq<CR>')
+vim.keymap.set('n', '<leader>q', '<cmd>wa | cq<CR>')
 vim.keymap.set('n', '<leader>d', vim.diagnostic.setloclist, { desc = 'Open [D]iagnostic quickfix list' })
 vim.keymap.set("n", "|", "<CMD>vsplit<CR>", { desc = "[V]ertical Split" })
+vim.keymap.set('n', 'grd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'grf', vim.lsp.buf.format)
 
 
 -- Clear highlights on search when pressing <Esc> in normal mode
@@ -88,22 +95,25 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Highlight when yanking (copying) text
 ---@diagnostic disable-next-line: param-type-mismatch
 vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking (copying) text',
-	group = vim.api.nvim_create_augroup('highlight.yank.group', { clear = true }),
-	callback = function()
-		vim.hl.on_yank()
-	end,
+    desc = 'Highlight when yanking (copying) text',
+    group = vim.api.nvim_create_augroup('highlight.yank.group', { clear = true }),
+    callback = function()
+        vim.hl.on_yank()
+    end,
 })
 
 vim.pack.add({
-	"https://github.com/Mofiqul/dracula.nvim",
-	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/dmtrKovalenko/fff.nvim",
-	"https://github.com/saghen/blink.cmp",
-	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/L3MON4D3/LuaSnip",
-	"https://github.com/rafamadriz/friendly-snippets",
-	"https://github.com/lewis6991/gitsigns.nvim",
+    "https://github.com/Mofiqul/dracula.nvim",
+    "https://github.com/stevearc/oil.nvim",
+    "https://github.com/dmtrKovalenko/fff.nvim",
+    "https://github.com/saghen/blink.cmp",
+    "https://github.com/nvim-treesitter/nvim-treesitter",
+    "https://github.com/L3MON4D3/LuaSnip",
+    "https://github.com/rafamadriz/friendly-snippets",
+    "https://github.com/lewis6991/gitsigns.nvim",
+    "https://github.com/tpope/vim-fugitive",
+    "https://github.com/nvim-lua/plenary.nvim",
+    "https://github.com/nvim-telescope/telescope.nvim",
 })
 
 require(".")
