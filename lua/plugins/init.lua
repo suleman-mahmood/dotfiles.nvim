@@ -9,5 +9,6 @@ M.treesitter = require("plugins.treesitter")
 M.lua_snip = require("plugins.lua_snip")
 M.gitsigns = require("plugins.gitsigns")
 M.treesitter_context = require("plugins.treesitter_context")
+M.flash = require("plugins.flash")
 
 return M
