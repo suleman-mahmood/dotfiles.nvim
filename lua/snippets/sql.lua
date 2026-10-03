@@ -76,4 +76,10 @@ create type <enum_name> as enum (
             }
         )
     ),
+    s("dc",
+        fmta([[
+alter table <table_name> drop column <col_name>;
+<finish>
+        ]],
+            { table_name = i(1), col_name = i(2), finish = i(0) }))
 })

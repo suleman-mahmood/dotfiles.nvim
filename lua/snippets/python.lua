@@ -293,5 +293,30 @@ if __name__ == "__main__":
                 finish = i(0),
             }
         )
+    ),
+    s(
+        "mazlo-script",
+        fmta(
+            [[
+import asyncio
+
+from loguru import logger
+
+from mazlo.database.context.data_context import DataContext
+from mazlo.database.interface import organization_db
+from mazlo.script_base import mazlo_script
+
+
+@mazlo_script
+async def run_backfill(data_context: DataContext):
+    orgs = await organization_db.list_organizations(data_context, list_only_valid_organizations=True)
+    <finish>
+
+asyncio.run(run_backfill())
+            ]],
+            {
+                finish = i(0),
+            }
+        )
     )
 })

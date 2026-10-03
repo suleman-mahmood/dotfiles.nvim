@@ -24,28 +24,28 @@ local conds = require("luasnip.extras.conditions")
 local conds_expand = require("luasnip.extras.conditions.expand")
 
 ls.add_snippets("dart", {
-	s(
-		"apiget",
-		fmta(
-			[[
+    s(
+        "apiget",
+        fmta(
+            [[
   Future<<<return_val>>> <fn>(String fsId, String? projId) async {
     final path = ApiPaths.<fn_same>Path(fsId, projId);
     final resp = await _apiService.get(path);
     return <return_val_same>.from(resp["data"]);
   }
       ]],
-			{
-				fn = i(1),
-				fn_same = rep(1),
-				return_val = i(2),
-				return_val_same = rep(2),
-			}
-		)
-	),
-	s(
-		"apipost",
-		fmta(
-			[[
+            {
+                fn = i(1),
+                fn_same = rep(1),
+                return_val = i(2),
+                return_val_same = rep(2),
+            }
+        )
+    ),
+    s(
+        "apipost",
+        fmta(
+            [[
   Future<<void>> <fn>(String fsId, String? projId, <body_type> <body>) async {
     final path = ApiPaths.<fn_same>Path(fsId, projId);
     await _apiService.post(path, data: {
@@ -53,38 +53,38 @@ ls.add_snippets("dart", {
     });
   }
       ]],
-			{
-				fn = i(1),
-				fn_same = rep(1),
-				body_type = i(2),
-				body = i(3),
-				body_same = rep(3),
-				finish = i(0),
-			}
-		)
-	),
-	s(
-		"apidelete",
-		fmta(
-			[[
+            {
+                fn = i(1),
+                fn_same = rep(1),
+                body_type = i(2),
+                body = i(3),
+                body_same = rep(3),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "apidelete",
+        fmta(
+            [[
   Future<<void>> <fn>(String fsId, String? projId, <body_type> <body>) async {
     final path = ApiPaths.<fn_same>Path(fsId, projId, <body_same>);
     await _apiService.delete(path);
   }
       ]],
-			{
-				fn = i(1),
-				fn_same = rep(1),
-				body_type = i(2),
-				body = i(3),
-				body_same = rep(3),
-			}
-		)
-	),
-	s(
-		"pathfsproj",
-		fmta(
-			[[
+            {
+                fn = i(1),
+                fn_same = rep(1),
+                body_type = i(2),
+                body = i(3),
+                body_same = rep(3),
+            }
+        )
+    ),
+    s(
+        "pathfsproj",
+        fmta(
+            [[
   static String <fn>(String fsId, String? projId) {
     if (projId != null) {
       return '$fiscalSponsorsApiPath/$fsId/project/$projId/<path>';
@@ -92,17 +92,17 @@ ls.add_snippets("dart", {
     return '$fiscalSponsorsApiPath/$fsId/<path_same>';
   }
       ]],
-			{
-				fn = i(1),
-				path = i(2),
-				path_same = rep(2),
-			}
-		)
-	),
-	s(
-		"from_map",
-		fmta(
-			[[
+            {
+                fn = i(1),
+                path = i(2),
+                path_same = rep(2),
+            }
+        )
+    ),
+    s(
+        "from_map",
+        fmta(
+            [[
   factory <fn>.fromMap(Map<<String, dynamic>> map) {
     return <fn_same>(
         <key>: map["<value>"],
@@ -110,24 +110,24 @@ ls.add_snippets("dart", {
     );
   }
     ]],
-			{ fn = i(1), fn_same = rep(1), key = i(2), value = i(3), finish = i(0) }
-		)
-	),
-	s(
-		"from_list",
-		fmta(
-			[[
+            { fn = i(1), fn_same = rep(1), key = i(2), value = i(3), finish = i(0) }
+        )
+    ),
+    s(
+        "from_list",
+        fmta(
+            [[
   static List<<<class>>> fromMapList(dynamic data) {
     return data.map<<<class_same>>>((d) =>> <class_same_2>.fromMap(d)).toList();
   }<finish>
   ]],
-			{ class = i(1), class_same = rep(1), class_same_2 = rep(1), finish = i(0) }
-		)
-	),
-	s(
-		"stateful-widget",
-		fmta(
-			[[
+            { class = i(1), class_same = rep(1), class_same_2 = rep(1), finish = i(0) }
+        )
+    ),
+    s(
+        "stateful-widget",
+        fmta(
+            [[
 class <widget_name> extends StatefulWidget {
   const <widget_name_same>({super.key});
 
@@ -149,15 +149,43 @@ class _<widget_name_same_5>State extends State<<<widget_name_same_3>>> {
   }
 }
   ]],
-			{
-				widget_name = i(1),
-				widget_name_same = rep(1),
-				widget_name_same_2 = rep(1),
-				widget_name_same_3 = rep(1),
-				widget_name_same_4 = rep(1),
-				widget_name_same_5 = rep(1),
-				finish = i(0),
-			}
-		)
-	),
+            {
+                widget_name = i(1),
+                widget_name_same = rep(1),
+                widget_name_same_2 = rep(1),
+                widget_name_same_3 = rep(1),
+                widget_name_same_4 = rep(1),
+                widget_name_same_5 = rep(1),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "getter-setter",
+        fmta(
+            [[
+<var_type> _<var_name>;
+
+<var_type_1> get <var_name_1> =>> _<var_name_2>;
+
+set <var_name_3>(<var_type_2> v) {
+    _<var_name_4> = v;
+    notifyListeners();
+}
+<finish>
+            ]],
+            {
+                var_name = i(1),
+                var_name_1 = rep(1),
+                var_name_2 = rep(1),
+                var_name_3 = rep(1),
+                var_name_4 = rep(1),
+                var_type = i(2),
+                var_type_1 = rep(2),
+                var_type_2 = rep(2),
+                finish = i(0)
+            }
+        )
+    )
+
 })
