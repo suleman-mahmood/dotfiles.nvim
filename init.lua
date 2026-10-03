@@ -102,12 +102,28 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
+-- Post-install/update build steps:
+--   fff.nvim ships a native binary that must match its Lua code
+--   nvim-treesitter requires parsers to match the plugin version
+vim.api.nvim_create_autocmd('PackChanged', {
+    callback = function(ev)
+        local name, kind = ev.data.spec.name, ev.data.kind
+        if kind ~= 'install' and kind ~= 'update' then return end
+        if not ev.data.active then vim.cmd.packadd(name) end
+        if name == 'fff.nvim' then
+            require('fff.download').download_or_build_binary()
+        elseif name == 'nvim-treesitter' then
+            vim.cmd('TSUpdate')
+        end
+    end,
+})
+
 vim.pack.add({
     "https://github.com/Mofiqul/dracula.nvim",
     "https://github.com/stevearc/oil.nvim",
     "https://github.com/dmtrKovalenko/fff.nvim",
     { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.*") },
-    "https://github.com/nvim-treesitter/nvim-treesitter",
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
     "https://github.com/L3MON4D3/LuaSnip",
     "https://github.com/rafamadriz/friendly-snippets",
     "https://github.com/lewis6991/gitsigns.nvim",
@@ -115,7 +131,7 @@ vim.pack.add({
     "https://github.com/nvim-lua/plenary.nvim",
     "https://github.com/nvim-telescope/telescope.nvim",
     "https://github.com/nvim-treesitter/nvim-treesitter-context",
-    "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", version = "main" },
     "https://github.com/folke/flash.nvim",
 })
 
