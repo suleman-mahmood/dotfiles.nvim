@@ -106,7 +106,7 @@ vim.pack.add({
     "https://github.com/Mofiqul/dracula.nvim",
     "https://github.com/stevearc/oil.nvim",
     "https://github.com/dmtrKovalenko/fff.nvim",
-    "https://github.com/saghen/blink.cmp",
+    { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.*") },
     "https://github.com/nvim-treesitter/nvim-treesitter",
     "https://github.com/L3MON4D3/LuaSnip",
     "https://github.com/rafamadriz/friendly-snippets",
