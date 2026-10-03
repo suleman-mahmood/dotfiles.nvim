@@ -5,9 +5,6 @@ return {
     root_markers = { { 'pyproject.toml', 'poetry.toml', 'poetry.lock' }, '.git' },
     settings = {
         python = {
-            pythonPath = "/Users/sulemanmahmood/Projects/sool-octo/.venv/bin/python",
-            -- pythonPath = "/Users/sulemanmahmood/Projects/sabqcha/backend/.venv/bin/python",
-            -- pythonPath = "/Users/sulemanmahmood/Projects/experiments/stock/.venv/bin/python",
             analysis = {
                 autoSearchPaths = true,
                 useLibraryCodeForTypes = true,
@@ -15,6 +12,13 @@ return {
             },
         },
     },
+    -- Use the project's own .venv if it has one
+    before_init = function(_, config)
+        local python = config.root_dir and config.root_dir .. '/.venv/bin/python'
+        if python and vim.uv.fs_stat(python) then
+            config.settings.python.pythonPath = python
+        end
+    end,
     on_attach = function(client, bufnr)
         vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightOrganizeImports', function()
             client:exec_cmd({
