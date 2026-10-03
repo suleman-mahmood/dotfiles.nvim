@@ -24,10 +24,10 @@ local conds = require("luasnip.extras.conditions")
 local conds_expand = require("luasnip.extras.conditions.expand")
 
 ls.add_snippets("python", {
-	s(
-		"workflow",
-		fmta(
-			[[
+    s(
+        "workflow",
+        fmta(
+            [[
 from loguru import logger
 from pydantic import BaseModel
 
@@ -45,87 +45,74 @@ class <workflow_name>Args(BaseModel):
 async def <workflow_fn_name>(arg: <workflow_name_same>Args, data_context: DataContext, synctera_client: SyncteraClient):
     <finish>
       ]],
-			{
-				workflow_name = i(1),
-				workflow_name_same = rep(1),
-				workflow_fn_name = i(2),
-				args_list = i(3),
-				finish = i(0),
-			}
-		)
-	),
-	s(
-		"mm",
-		fmta(
-			[[
+            {
+                workflow_name = i(1),
+                workflow_name_same = rep(1),
+                workflow_fn_name = i(2),
+                args_list = i(3),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "mm",
+        fmta(
+            [[
 <module_name> = module_mocker(<workflow>, "<module_name_same>")
 <finish>
       ]],
-			{
-				module_name = i(1),
-				module_name_same = rep(1),
-				workflow = i(2),
-				finish = i(0),
-			}
-		)
-	),
-	s(
-		"api-post",
-		fmta(
-			[[
+            {
+                module_name = i(1),
+                module_name_same = rep(1),
+                workflow = i(2),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "api-post",
+        fmta(
+            [[
 class <body_same>Body(BaseModel):
-    pass
+    <finish>
 
 
-@fs_router.<method>("<route>")
-@proj_router.<method_same>("<route_same>")
+@router.post("<route>")
 async def <route_fn>(
     body: <body>Body,
-    fiscal_sponsor_id: str,
-    project_id: str | None = None,
-    data_context: DataContext = Depends(get_data_context(required_permissions=["<perm>"])),
+    data_context: DataContext = Depends(get_data_context),
 ):
-    <finish>
+    pass
       ]],
-			{
-				method = i(1),
-				method_same = rep(1),
-				route = i(2),
-				route_same = rep(2),
-				route_fn = i(3),
-				body = i(4),
-				body_same = rep(4),
-				perm = i(5),
-				finish = i(0),
-			}
-		)
-	),
-	s(
-		"api-get",
-		fmta(
-			[[
-@fs_router.get("<route>")
-@proj_router.get("<route_same>")
-async def <route_fn>(
-    fiscal_sponsor_id: str,
-    project_id: str | None = None,
-    data_context: DataContext = Depends(get_data_context()),
-):
+            {
+                route = i(1),
+                route_fn = i(2),
+                body = i(3),
+                body_same = rep(3),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "api-get",
+        fmta(
+            [[
+@router.get("<route>")
+async def <route_fn>(data_context: DataContext = Depends(get_data_context)):
     pass
     <finish>
       ]],
-			{
-				route = i(1),
-				route_same = rep(1),
-				route_fn = i(2),
-				finish = i(0),
-			}
-		)
-	),
-	s(
-		"testunit",
-		fmta(
-			[[
+            {
+                route = i(1),
+                route_fn = i(2),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "testunit",
+        fmta(
+            [[
 @pytest.mark.parametrize(
     "",
     [
@@ -140,30 +127,171 @@ async def test_<fn_name>(mocker, module_mocker, user_data_context: DataContext, 
 
     # Assert
       ]],
-			{
-				fn_name = i(1),
-				finish = i(0),
-			}
-		)
-	),
-	s(
-		"dal",
-		fmta(
-			[[
-@dal()
-async def <fn_name>(data_context: DataContext<finish>):
-    async with data_context.<read_or_write> as con:
-        # TODO: Enter query
-        await con.execute(
+            {
+                fn_name = i(1),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "db",
+        fmta(
+            [[
+async def <fn_name>(data_context: DataContext, <args>):
+    async with data_context.get_cursor() as cur:
+        <finish>
+        await cur.execute(
             """
             """,
         )
       ]],
-			{
-				fn_name = i(1),
-				read_or_write = i(2),
-				finish = i(0),
-			}
-		)
-	),
+            {
+                fn_name = i(1),
+                args = i(2),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "db-insert",
+        fmta(
+            [[
+async def <fn_name>(data_context: DataContext, <args>) ->> str:
+    <public_id>_id = internal_id()
+
+    async with data_context.get_cursor() as cur:
+        await cur.execute(
+            """
+            insert into <table> (
+                <table_cols>
+            )
+            values (
+                <table_values>
+            )
+            """,
+            (<query_args>,),
+        )
+
+    return <public_id_same>_id
+<finish>
+            ]],
+            {
+                fn_name = i(1),
+                args = i(2),
+                public_id = i(3),
+                public_id_same = rep(3),
+                table = i(4),
+                table_cols = i(5),
+                table_values = i(6),
+                query_args = i(7),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "db-select",
+        fmta(
+            [[
+async def <fn_name>(data_context: DataContext, <args>) ->> <fn_return> | None:
+    async with data_context.get_cursor() as cur:
+        await cur.execute(
+            """
+            select
+                <table_cols>
+            from
+                <table_name>
+            where
+                <where_clause>
+            """,
+            (<query_args>,),
+        )
+        row = await cur.fetchone()
+        if not row:
+            return None
+    return row[0]<finish>
+            ]],
+            {
+                fn_name = i(1),
+                args = i(2),
+                fn_return = i(3),
+                table_cols = i(4),
+                table_name = i(5),
+                where_clause = i(6),
+                query_args = i(7),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "db-update",
+        fmta(
+            [[
+async def <fn_name>(data_context: DataContext, <args>):
+    async with data_context.get_cursor() as cur:
+        <fk>
+        await cur.execute(
+            """
+            update <table_name> set
+                <table_cols>
+            where
+                <where_clause>
+            """,
+            (<finish>,),
+        )
+            ]],
+            {
+                fn_name = i(1),
+                args = i(2),
+                table_name = i(3),
+                table_cols = i(4),
+                where_clause = i(5),
+                fk = i(6),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "idmap",
+        fmta(
+            [[
+        <table>_row_id = await id_map.get_<table_3>_row_id(cur, <table_1>_id)
+        assert <table_2>_row_id
+        <finish>
+            ]],
+            {
+                table = i(1),
+                table_1 = rep(1),
+                table_2 = rep(1),
+                table_3 = rep(1),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "script",
+        fmta(
+            [[
+import asyncio
+
+from scripts.common import close_pg_pool, setup_logger, setup_local_pg
+from loguru import logger
+
+
+async def main():
+    setup_logger()
+    data_context = await setup_local_pg()
+
+    <finish>
+
+    await close_pg_pool()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+            ]],
+            {
+                finish = i(0),
+            }
+        )
+    )
 })

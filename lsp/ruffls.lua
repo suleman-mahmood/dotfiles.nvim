@@ -1,6 +1,12 @@
 ---@type vim.lsp.Config
 return {
-	cmd = { 'ruff', 'server' },
-	filetypes = { 'python' },
-	root_markers = { { 'poetry.toml', 'poetry.lock' }, '.git' },
+    cmd = { 'uv', 'run', 'ruff', 'server' },
+    filetypes = { 'python' },
+    root_markers = { { 'pyproject.toml', 'poetry.toml', 'poetry.lock' }, '.git' },
+
+    settings = {
+        ruff = {
+            organizeImports = true,
+        },
+    },
 }

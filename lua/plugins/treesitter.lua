@@ -11,6 +11,7 @@ require("nvim-treesitter.configs").setup({
         'sql',
         'python',
         'dart',
+        'wgsl'
     },
     highlight = { enable = true },
     indent = { enable = true },

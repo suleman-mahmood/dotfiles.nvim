@@ -24,17 +24,17 @@ local conds = require("luasnip.extras.conditions")
 local conds_expand = require("luasnip.extras.conditions.expand")
 
 local function to_pascal_case(args, parent, user_args)
-	local res = require("textcase").api.to_pascal_case(args[1][1])
-	return res
+    local res = require("textcase").api.to_pascal_case(args[1][1])
+    return res
 end
 
 ls.add_snippets("sql", {
-	s(
-		"create_table",
-		fmta(
-			[[
+    s(
+        "create_table",
+        fmta(
+            [[
 create table <table_name> (
-  id bigint primary key generated always as identity,
+  row_id bigint primary key generated always as identity,
   public_id text not null unique,
 
   <finish>
@@ -42,38 +42,38 @@ create table <table_name> (
   created_at timestamptz not null default now()
 );
       ]],
-			{
-				table_name = i(1),
-				finish = i(0),
-			}
-		)
-	),
-	s(
-		"enum",
-		fmta(
-			[[
+            {
+                table_name = i(1),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "enum",
+        fmta(
+            [[
 create type <enum_name> as enum (
   <finish>
 );
       ]],
-			{
-				enum_name = i(1),
-				finish = i(0),
-			}
-		)
-	),
-	s(
-		"fk",
-		fmta(
-			[[
-<table_name>_id bigint not null references <table_name_same>(id),
+            {
+                enum_name = i(1),
+                finish = i(0),
+            }
+        )
+    ),
+    s(
+        "fk",
+        fmta(
+            [[
+<table_name>_row_id bigint not null references <table_name_same>(row_id),
 <finish>
       ]],
-			{
-				table_name = i(1),
-				table_name_same = rep(1),
-				finish = i(0),
-			}
-		)
-	),
+            {
+                table_name = i(1),
+                table_name_same = rep(1),
+                finish = i(0),
+            }
+        )
+    ),
 })

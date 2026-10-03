@@ -2,10 +2,12 @@
 return {
     cmd = { 'pyright-langserver', '--stdio' },
     filetypes = { 'python' },
-    root_markers = { { 'poetry.toml', 'poetry.lock' }, '.git' },
+    root_markers = { { 'pyproject.toml', 'poetry.toml', 'poetry.lock' }, '.git' },
     settings = {
         python = {
-            pythonPath = "/Users/sulemlo/Library/Caches/pypoetry/virtualenvs/mazlo-0I5QZlEV-py3.13/bin/python",
+            pythonPath = "/Users/sulemanmahmood/Projects/sool-octo/.venv/bin/python",
+            -- pythonPath = "/Users/sulemanmahmood/Projects/sabqcha/backend/.venv/bin/python",
+            -- pythonPath = "/Users/sulemanmahmood/Projects/experiments/stock/.venv/bin/python",
             analysis = {
                 autoSearchPaths = true,
                 useLibraryCodeForTypes = true,

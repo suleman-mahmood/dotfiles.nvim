@@ -1,4 +1,4 @@
-vim.lsp.enable({ 'luals', 'dartls', 'ruffls', 'pyrightls' })
+vim.lsp.enable({ 'luals', 'dartls', 'ruffls', 'pyrightls', 'rust_analyzer', 'ts_ls', 'eslint', 'html', 'cssls', 'jsonls', })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('lsp.group', {}),
